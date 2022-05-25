@@ -66,3 +66,8 @@ target/
 
 #Idea
 .idea*
+
+# Datasets
+CIFAR10
+None
+
