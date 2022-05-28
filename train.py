@@ -20,7 +20,7 @@ parser.add_argument('--dataset', type=str, default='MNIST', metavar='DATASET',
                     help='dataset name (default: CIFAR10)')
 parser.add_argument('--use_test', action='store_true',
                     help='switches between validation and test set (default: validation)')
-parser.add_argument('--transform', type=str, default='VGG', metavar='TRANSFORM',
+parser.add_argument('--transform', type=str, default='ConvFC', metavar='TRANSFORM',
                     help='transform name (default: VGG)')
 parser.add_argument('--data_path', type=str, default='/tmp/data/', metavar='PATH',
                     help='path to datasets location (default: None)')
@@ -32,7 +32,7 @@ parser.add_argument('--num-workers', type=int, default=4, metavar='N',
 # parser.add_argument('--model', type=str, default=None, metavar='MODEL', required=True,
 #                     help='model name (default: None)')
 
-parser.add_argument('--model', type=str, default='VGG16', metavar='MODEL',
+parser.add_argument('--model', type=str, default='ConvFC', metavar='MODEL',
                     help='model name (default: None)')
 
 
@@ -54,7 +54,7 @@ parser.add_argument('--init_linear_off', dest='init_linear', action='store_false
 parser.add_argument('--resume', type=str, default=None, metavar='CKPT',
                     help='checkpoint to resume training from (default: None)')
 
-parser.add_argument('--epochs', type=int, default=200, metavar='N',
+parser.add_argument('--epochs', type=int, default=1, metavar='N',
                     help='number of epochs to train (default: 200)')
 parser.add_argument('--save_freq', type=int, default=50, metavar='N',
                     help='save frequency (default: 50)')

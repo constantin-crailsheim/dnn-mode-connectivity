@@ -36,7 +36,38 @@ class Transforms:
                 transforms.Normalize(mean=[0.4914, 0.4822, 0.4465], std=[0.2023, 0.1994, 0.2010]),
             ])
 
+        class ConvFC:
+
+            train = transforms.Compose([
+                transforms.RandomHorizontalFlip(),
+                transforms.RandomCrop(32, padding=4),
+                transforms.ToTensor(),
+                transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+            ])
+
+            test = transforms.Compose([
+                transforms.ToTensor(),
+                transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+            ])
+
+
+    class MNIST:
+
+        class ConvFC:
+
+            train = transforms.Compose([
+                transforms.ToTensor(),
+                transforms.Normalize((0.5,), (0.5,))
+            ])
+
+            test = transforms.Compose([
+                transforms.ToTensor(),
+                transforms.Normalize((0.5,), (0.5,))
+            ])
+
     CIFAR100 = CIFAR10
+
+
 
 
 def loaders(dataset, path, batch_size, num_workers, transform_name, use_test=False,
@@ -49,8 +80,12 @@ def loaders(dataset, path, batch_size, num_workers, transform_name, use_test=Fal
     if use_test:
         print('You are going to run models on the test set. Are you sure?')
         test_set = ds(path, train=False, download=True, transform=transform.test)
+    elif dataset == "MNIST":
+        print("train_data and test_data for MNIST already defined")
+        test_set = ds(path, train=False, download=True, transform=transform.test)
     else:
         print("Using train (45000) + validation (5000)")
+        train_set.train_data = None
         train_set.train_data = train_set.data[:-5000]
         train_set.train_labels = train_set.targets[:-5000]
 
