@@ -111,7 +111,10 @@ else:
         if args.init_linear:
             print('Linear initialization.')
             model.init_linear()
-model.cuda()
+
+# Edit, initially model.cuda()
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+model.to(device)
 
 
 def learning_rate_schedule(base_lr, epoch, total_epochs):
