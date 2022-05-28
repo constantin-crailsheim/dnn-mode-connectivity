@@ -16,21 +16,25 @@ parser = argparse.ArgumentParser(description='DNN curve training')
 parser.add_argument('--dir', type=str, default='/tmp/curve/', metavar='DIR',
                     help='training directory (default: /tmp/curve/)')
 
-parser.add_argument('--dataset', type=str, default='CIFAR10', metavar='DATASET',
+parser.add_argument('--dataset', type=str, default='MNIST', metavar='DATASET',
                     help='dataset name (default: CIFAR10)')
 parser.add_argument('--use_test', action='store_true',
                     help='switches between validation and test set (default: validation)')
 parser.add_argument('--transform', type=str, default='VGG', metavar='TRANSFORM',
                     help='transform name (default: VGG)')
-parser.add_argument('--data_path', type=str, default=None, metavar='PATH',
+parser.add_argument('--data_path', type=str, default='/tmp/data/', metavar='PATH',
                     help='path to datasets location (default: None)')
 parser.add_argument('--batch_size', type=int, default=128, metavar='N',
                     help='input batch size (default: 128)')
 parser.add_argument('--num-workers', type=int, default=4, metavar='N',
                     help='number of workers (default: 4)')
 
-parser.add_argument('--model', type=str, default=None, metavar='MODEL', required=True,
+# parser.add_argument('--model', type=str, default=None, metavar='MODEL', required=True,
+#                     help='model name (default: None)')
+
+parser.add_argument('--model', type=str, default='VGG16', metavar='MODEL',
                     help='model name (default: None)')
+
 
 parser.add_argument('--curve', type=str, default=None, metavar='CURVE',
                     help='curve type to use (default: None)')
@@ -112,9 +116,11 @@ else:
             print('Linear initialization.')
             model.init_linear()
 
-# Edit, initially model.cuda()
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-model.to(device)
+if torch.cuda.is_available():
+    model.cuda()
+else:
+    device = torch.device('cpu')
+    model.to(device)
 
 
 def learning_rate_schedule(base_lr, epoch, total_epochs):

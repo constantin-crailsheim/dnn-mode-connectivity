@@ -47,7 +47,11 @@ architecture = getattr(models, args.model)
 model = architecture.base(num_classes=num_classes, **architecture.kwargs)
 criterion = F.cross_entropy
 
-model.cuda()
+if torch.cuda.is_available():
+    model.cuda()
+else:
+    device = torch.device('cpu')
+    model.to(device)
 
 ensemble_size = 0
 predictions_sum = np.zeros((len(loaders['test'].dataset), num_classes))

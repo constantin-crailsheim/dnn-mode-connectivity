@@ -69,7 +69,13 @@ model = curves.CurveNet(
     args.num_bends,
     architecture_kwargs=architecture.kwargs,
 )
-model.cuda()
+
+if torch.cuda.is_available():
+    model.cuda()
+else:
+    device = torch.device('cpu')
+    model.to(device)
+
 checkpoint = torch.load(args.ckpt)
 model.load_state_dict(checkpoint['model_state'])
 
@@ -92,7 +98,13 @@ previous_weights = None
 
 columns = ['t', 'Train loss', 'Train nll', 'Train error (%)', 'Test nll', 'Test error (%)']
 
-t = torch.FloatTensor([0.0]).cuda()
+
+if torch.cuda.is_available():
+    t = torch.FloatTensor([0.0]).cuda()
+else:
+    device = torch.device('cpu')
+    t = torch.FloatTensor([0.0]).to(device)
+
 for i, t_value in enumerate(ts):
     t.data.fill_(t_value)
     weights = model.weights(t)

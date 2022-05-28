@@ -50,9 +50,13 @@ def train(train_loader, model, optimizer, criterion, regularizer=None, lr_schedu
         if lr_schedule is not None:
             lr = lr_schedule(iter / num_iters)
             adjust_learning_rate(optimizer, lr)
-        device = torch.device('cuda' if torch.cuda.is_available() else 'cpu') # New
-        input = input.to(device) # cuda(non_blocking=True)
-        target = target.to(device)
+        if torch.cuda.is_available():
+            input = input.cuda(non_blocking = True)
+            target = target.cuda(non_blocking = True)
+        else:
+            device = torch.device('cpu')
+            input = input.to(device)
+            target = target.to(device)
 
         output = model(input)
         loss = criterion(output, target)
