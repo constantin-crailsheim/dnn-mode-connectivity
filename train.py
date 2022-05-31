@@ -13,7 +13,7 @@ import utils
 
 
 parser = argparse.ArgumentParser(description='DNN curve training')
-parser.add_argument('--dir', type=str, default='/tmp/curve/', metavar='DIR',
+parser.add_argument('--dir', type=str, default='./tmp/curve/', metavar='DIR',
                     help='training directory (default: /tmp/curve/)')
 
 parser.add_argument('--dataset', type=str, default='MNIST', metavar='DATASET',
@@ -22,7 +22,7 @@ parser.add_argument('--use_test', action='store_true',
                     help='switches between validation and test set (default: validation)')
 parser.add_argument('--transform', type=str, default='BasicCNN', metavar='TRANSFORM',
                     help='transform name (default: VGG)')
-parser.add_argument('--data_path', type=str, default='/tmp/data/', metavar='PATH',
+parser.add_argument('--data_path', type=str, default='./tmp/data/', metavar='PATH',
                     help='path to datasets location (default: None)')
 parser.add_argument('--batch_size', type=int, default=128, metavar='N',
                     help='input batch size (default: 128)')

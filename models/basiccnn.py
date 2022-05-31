@@ -19,12 +19,14 @@ class BasicCNNBase(nn.Module):
             nn.Conv2d(in_channels=32, out_channels=64, kernel_size=(3, 3),),
             nn.ReLU(),
             nn.MaxPool2d(kernel_size=2),
-            nn.Conv2d(in_channels=64,out_channels=64, kernel_size=(3, 3),),
+            nn.Conv2d(in_channels=64, out_channels=64, kernel_size=(3, 3),),
             nn.Flatten()
         )
         
         self.fc_part = nn.Sequential(
             nn.Linear(in_features=576, out_features=64),
+            nn.ReLU(),
+            nn.Linear(in_features=64, out_features=64),
             nn.ReLU(),
             nn.Linear(in_features=64, out_features=10)
         )
@@ -43,29 +45,26 @@ class BasicCNNBase(nn.Module):
         return x
 
 
-## Not working yet
 class BasicCNNCurve(nn.Module):
     def __init__(self, num_classes, fix_points):
-        super(ConvFCCurve_1D, self).__init__()
-        self.conv1 = curves.Conv2d(1, 32, kernel_size=5, padding=2, fix_points=fix_points)
-        self.relu1 = nn.ReLU(True)
-        self.max_pool1 = nn.MaxPool2d(kernel_size=3, stride=2)
+        super(BasicCNNCurve, self).__init__()
+        self.conv1 = curves.Conv2d(1, 32, kernel_size=(3,3), fix_points=fix_points)
+        self.relu1 = nn.ReLU()
+        self.max_pool1 = nn.MaxPool2d(kernel_size=2)
 
-        self.conv2 = curves.Conv2d(32, 64, kernel_size=5, padding=2, fix_points=fix_points)
-        self.relu2 = nn.ReLU(True)
-        self.max_pool2 = nn.MaxPool2d(3, 2)
+        self.conv2 = curves.Conv2d(32, 64, kernel_size=(3,3), fix_points=fix_points)
+        self.relu2 = nn.ReLU()
+        self.max_pool2 = nn.MaxPool2d(kernel_size=2)
 
-        self.conv3 = curves.Conv2d(64, 128, kernel_size=5, padding=2, fix_points=fix_points)
-        self.relu3 = nn.ReLU(True)
-        self.max_pool3 = nn.MaxPool2d(3, 2)
+        self.conv3 = curves.Conv2d(64, 64, kernel_size=(3,3), fix_points=fix_points)
+        self.relu3 = nn.ReLU()
+        self.flatten1 = nn.Flatten()
 
-        self.fc4 = curves.Linear(1152, 1000, fix_points=fix_points)
-        self.relu4 = nn.ReLU(True)
-
-        self.fc5 = curves.Linear(1000, 1000, fix_points=fix_points)
-        self.relu5 = nn.ReLU(True)
-
-        self.fc6 = curves.Linear(1000, num_classes, fix_points=fix_points)
+        self.fc4 = curves.Linear(in_features=576, out_features=64, fix_points=fix_points),
+        self.relu4 = nn.ReLU(),
+        self.fc5 = curves.Linear(in_features=64, out_features=64, fix_points=fix_points),
+        self.relu5 = nn.ReLU(),
+        self.fc6 = curves.Linear(in_features=64, out_features=10, fix_points=fix_points)
 
         # Initialize weights
         for m in self.modules():
@@ -86,7 +85,7 @@ class BasicCNNCurve(nn.Module):
 
         x = self.conv3(x, coeffs_t)
         x = self.relu3(x)
-        x = self.max_pool3(x)
+        x = self.flatten1(x)
 
         x = x.view(x.size(0), -1)
 
@@ -94,10 +93,10 @@ class BasicCNNCurve(nn.Module):
         x = self.relu4(x)
 
         x = self.fc5(x, coeffs_t)
-        x = self.relu5(x)
+        x = self.rel5(x)
 
         x = self.fc6(x, coeffs_t)
-
+        
         return x
 
 
