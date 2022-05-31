@@ -20,7 +20,7 @@ parser.add_argument('--dataset', type=str, default='MNIST', metavar='DATASET',
                     help='dataset name (default: CIFAR10)')
 parser.add_argument('--use_test', action='store_true',
                     help='switches between validation and test set (default: validation)')
-parser.add_argument('--transform', type=str, default='ConvFC', metavar='TRANSFORM',
+parser.add_argument('--transform', type=str, default='BasicCNN', metavar='TRANSFORM',
                     help='transform name (default: VGG)')
 parser.add_argument('--data_path', type=str, default='/tmp/data/', metavar='PATH',
                     help='path to datasets location (default: None)')
@@ -32,7 +32,7 @@ parser.add_argument('--num-workers', type=int, default=4, metavar='N',
 # parser.add_argument('--model', type=str, default=None, metavar='MODEL', required=True,
 #                     help='model name (default: None)')
 
-parser.add_argument('--model', type=str, default='ConvFC', metavar='MODEL',
+parser.add_argument('--model', type=str, default='BasicCNN', metavar='MODEL',
                     help='model name (default: None)')
 
 

@@ -53,7 +53,7 @@ class Transforms:
 
     class MNIST:
 
-        class ConvFC:
+        class BasicCNN:
 
             train = transforms.Compose([
                 transforms.ToTensor(),
