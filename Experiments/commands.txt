@@ -1,4 +1,4 @@
-python train.py --dir=./tmp/checkpoints_model_1  --dataset=MNIST --data_path=./tmp/data --model=BasicCNN --epochs=4 --lr=0.05 --wd=5e-4 --transform=BasicCNN
+python train.py --dir=./tmp/checkpoints_model_1  --dataset=MNIST --data_path=./tmp/data --model=ConvFC --epochs=4 --lr=0.05 --wd=5e-4 --transform=ConvFC
 
 python train.py --dir=./tmp/checkpoints_model_2  --dataset=MNIST --data_path=./tmp/data --model=BasicCNN --epochs=4 --lr=0.05 --wd=5e-4 --transform=BasicCNN
 
@@ -14,6 +14,11 @@ python train.py \
     --init_end=./tmp/checkpoints_model_2/checkpoint-4.pt \
     --fix_start \
     --fix_end \
-    --epochs=12 \
+    --epochs=1 \
     --lr=0.015 \
     --wd=5e-4
+
+
+python train.py --dir=./tmp/CIFAR10_ConvFC/checkpoints_model_1  --dataset=CIFAR10 --data_path=./tmp/data --model=ConvFC --epochs=4 --lr=0.05 --wd=5e-4 --transform=ConvFC
+
+python train.py --dir=./tmp/CIFAR10_ConvFC/checkpoints_model_2  --dataset=CIFAR10 --data_path=./tmp/data --model=ConvFC --epochs=4 --lr=0.05 --wd=5e-4 --transform=ConvFC

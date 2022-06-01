@@ -1,0 +1,84 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: BasicCNN with MNIST (model)",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": ["--dir=./tmp/MNIST_BasicCNN/checkpoints_model_1",
+                "--dataset=MNIST",
+                "--data_path=./tmp/data",
+                "--model=ConvFC",
+                "--epochs=4",
+                "--lr=0.05",
+                "--wd=5e-4",
+                "--transform=ConvFC"]
+        },
+        {
+            "name": "Python: BasicCNN with MNIST (curve)",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": ["--dir=./tmp/MNIST_BasicCNN/checkpoints_curve",
+                "--dataset=MNIST",
+                "--transform=BasicCNN",
+                "--data_path=./tmp/data",
+                "--model=BasicCNN",
+                "--curve=Bezier",
+                "--num_bends=3",
+                "--init_start=./tmp/MNIST_BasicCNN/checkpoints_model_1/checkpoint-4.pt",
+                "--init_end=./tmp/MNIST_BasicCNN/checkpoints_model_2/checkpoint-4.pt",
+                "--fix_start",
+                "--fix_end",
+                "--epochs=12",
+                "--lr=0.015",
+                "--wd=5e-4"]
+        },
+        {
+            "name": "Python: ConvFC with CIFAR10 (model)",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": ["--dir=./tmp/CIFAR10_ConvFC/checkpoints_model_1",
+                "--dataset=MNIST",
+                "--data_path=./tmp/data",
+                "--model=ConvFC",
+                "--epochs=4",
+                "--lr=0.05",
+                "--wd=5e-4",
+                "--transform=ConvFC"]
+        },
+        {
+            "name": "Python: ConvFC with CIFAR10 (curve)",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": ["--dir=./tmp/CIFAR10_ConvFC/checkpoints_curve",
+                "--dataset=MNIST",
+                "--transform=BasicCNN",
+                "--data_path=./tmp/data",
+                "--model=BasicCNN",
+                "--curve=Bezier",
+                "--num_bends=3",
+                "--init_start=./tmp/CIFAR10_ConvFC/checkpoints_model_1/checkpoint-4.pt",
+                "--init_end=./tmp/CIFAR10_ConvFC/checkpoints_model_2/checkpoint-4.pt",
+                "--fix_start",
+                "--fix_end",
+                "--epochs=12",
+                "--lr=0.015",
+                "--wd=5e-4"]
+        }
+    ]
+}
