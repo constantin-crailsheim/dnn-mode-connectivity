@@ -1,7 +1,4 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
         {
@@ -11,14 +8,14 @@
             "program": "${file}",
             "console": "integratedTerminal",
             "justMyCode": true,
-            "args": ["--dir=./tmp/MNIST_BasicCNN/checkpoints_model_1",
+            "args": ["--dir=./tmp/MNIST_BasicCNN/checkpoints_model_2",
                 "--dataset=MNIST",
                 "--data_path=./tmp/data",
-                "--model=ConvFC",
+                "--model=BasicCNN",
                 "--epochs=4",
                 "--lr=0.05",
                 "--wd=5e-4",
-                "--transform=ConvFC"]
+                "--transform=BasicCNN"]
         },
         {
             "name": "Python: BasicCNN with MNIST (curve)",
@@ -50,7 +47,7 @@
             "console": "integratedTerminal",
             "justMyCode": true,
             "args": ["--dir=./tmp/CIFAR10_ConvFC/checkpoints_model_1",
-                "--dataset=MNIST",
+                "--dataset=CIFAR10",
                 "--data_path=./tmp/data",
                 "--model=ConvFC",
                 "--epochs=4",
@@ -66,17 +63,17 @@
             "console": "integratedTerminal",
             "justMyCode": true,
             "args": ["--dir=./tmp/CIFAR10_ConvFC/checkpoints_curve",
-                "--dataset=MNIST",
-                "--transform=BasicCNN",
+                "--dataset=CIFAR10",
+                "--transform=ConvFC",
                 "--data_path=./tmp/data",
-                "--model=BasicCNN",
+                "--model=ConvFC",
                 "--curve=Bezier",
                 "--num_bends=3",
                 "--init_start=./tmp/CIFAR10_ConvFC/checkpoints_model_1/checkpoint-4.pt",
                 "--init_end=./tmp/CIFAR10_ConvFC/checkpoints_model_2/checkpoint-4.pt",
                 "--fix_start",
                 "--fix_end",
-                "--epochs=12",
+                "--epochs=1",
                 "--lr=0.015",
                 "--wd=5e-4"]
         }

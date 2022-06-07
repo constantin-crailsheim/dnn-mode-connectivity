@@ -18,7 +18,6 @@ class Bezier(Module):
         self.register_buffer('rev_range', torch.arange(float(num_bends - 1), -1, -1))
 
     def forward(self, t):
-        # What does "* \" mean?
         return self.binom * \
                torch.pow(t, self.range) * \
                torch.pow((1.0 - t), self.rev_range)
