@@ -20,10 +20,16 @@ from models.basiccnn import BasicCNN
 # %%
 
 model = "BasicCNN"
-num_classes = 10
-k = 0
+dataset = "MNIST"
 
-# %%
+loaders, num_classes = data.loaders(
+    dataset = dataset,
+    path = '/home/ubuntu/Project/Repos/dnn-mode-connectivity/tmp/data',
+    batch_size = 1,
+    num_workers = 1,
+    transform_name = model,
+    use_test = "True"
+)
 
 architecture = getattr(models, model)
 
@@ -32,6 +38,30 @@ checkpoint = torch.load("/home/ubuntu/Project/Repos/dnn-mode-connectivity/tmp/MN
 base_model.load_state_dict(checkpoint['model_state'])
 
 base_model.eval()
+
+
+# %%
+
+model = "ConvFC"
+dataset = "CIFAR10"
+
+loaders, num_classes = data.loaders(
+    dataset = dataset,
+    path = '/home/ubuntu/Project/Repos/dnn-mode-connectivity/tmp/data',
+    batch_size = 1,
+    num_workers = 1,
+    transform_name = model,
+    use_test = "False"
+)
+
+architecture = getattr(models, model)
+
+base_model = architecture.base(num_classes=num_classes, **architecture.kwargs)
+checkpoint = torch.load("/home/ubuntu/Project/Repos/dnn-mode-connectivity/tmp/CIFAR10_ConvFC/checkpoints_model_1/checkpoint-4.pt")
+base_model.load_state_dict(checkpoint['model_state'])
+
+base_model.eval()
+
 
 # %%
 f = gzip.open('/home/ubuntu/Project/Repos/dnn-mode-connectivity/tmp/data/mnist/MNIST/raw/train-images-idx3-ubyte.gz','r')
@@ -46,17 +76,6 @@ images = images.reshape(num_images, image_size, image_size, 1)
 image = np.asarray(data[0]).squeeze()
 plt.imshow(image)
 plt.show()
-
-# %% 
-
-loaders, num_classes = data.loaders(
-    dataset = 'MNIST',
-    path = '/home/ubuntu/Project/Repos/dnn-mode-connectivity/tmp/data',
-    batch_size = 1,
-    num_workers = 1,
-    transform_name = 'BasicCNN',
-    use_test = "True"
-)
 
 
 # %% 
