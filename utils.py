@@ -24,11 +24,11 @@ def cyclic_learning_rate(epoch, cycle, alpha_1, alpha_2):
             return alpha_1 * (2.0 * t - 1.0) + alpha_2 * (2.0 - 2.0 * t)
     return schedule
 
-
 def adjust_learning_rate(optimizer, lr):
     for param_group in optimizer.param_groups:
         param_group['lr'] = lr
     return lr
+
 
 
 def save_checkpoint(dir, epoch, name='checkpoint', **kwargs):

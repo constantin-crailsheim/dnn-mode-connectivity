@@ -35,7 +35,7 @@
                 "--init_end=./tmp/MNIST_BasicCNN/checkpoints_model_2/checkpoint-4.pt",
                 "--fix_start",
                 "--fix_end",
-                "--epochs=12",
+                "--epochs=1",
                 "--lr=0.015",
                 "--wd=5e-4"]
         },
