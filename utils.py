@@ -2,7 +2,6 @@ import numpy as np
 import os
 import torch
 import torch.nn.functional as F
-
 import curves
 
 
@@ -28,7 +27,6 @@ def adjust_learning_rate(optimizer, lr):
     for param_group in optimizer.param_groups:
         param_group['lr'] = lr
     return lr
-
 
 
 def save_checkpoint(dir, epoch, name='checkpoint', **kwargs):
@@ -110,6 +108,64 @@ def test(test_loader, model, criterion, regularizer=None, **kwargs):
         'accuracy': correct * 100.0 / len(test_loader.dataset),
     }
 
+
+# Added for experimental purpose
+def test_ensemble(test_loader, model, criterion, ensemble_size: int, train_set = False, regularizer=None, random_ensemble = False):
+    loss_sum = 0.0
+    nll_sum = 0.0
+    correct = 0.0
+
+    model.eval()
+
+    for input, target in test_loader:
+        if torch.cuda.is_available():
+            input = input.cuda(non_blocking = True)
+            target = target.cuda(non_blocking = True)
+        else:
+            device = torch.device('cpu')
+            input = input.to(device)
+            target = target.to(device)
+
+        nll = 0.0
+        loss = 0.0
+
+        if random_ensemble:
+            t_ensemble = np.random.uniform(0.0, 1.0, size = ensemble_size)
+        else:
+            t_ensemble = np.arange(0, 1 + 1e-15, 1/(ensemble_size-1))
+
+        if torch.cuda.is_available():
+            t = torch.FloatTensor([0.0]).cuda()
+        else:
+            device = torch.device('cpu')
+            t = torch.FloatTensor([0.0]).to(device)
+
+        pred_ensemble = torch.Tensor(len(target), len(t_ensemble))
+
+        for i, t_value in enumerate(t_ensemble):
+            t.data.fill_(t_value)
+            if train_set:
+                update_bn(test_loader, model, t=t)
+            output = model(input, t)
+            nll_tmp = criterion(output, target)
+            loss_tmp = nll_tmp.clone()
+            if regularizer is not None:
+                loss_tmp += regularizer(model)
+            nll += nll_tmp/ensemble_size
+            loss += loss_tmp/ensemble_size
+            pred_tmp = output.data.argmax(1, keepdim=True)
+            pred_ensemble[:,i] = pred_tmp.squeeze()
+
+        nll_sum += nll.item() * input.size(0)
+        loss_sum += loss.item() * input.size(0)
+        pred = pred_ensemble.data.mode(1, keepdim=True)
+        correct += pred.values.eq(target.data.view_as(pred.values)).sum().item()
+
+    return {
+        'nll': nll_sum / len(test_loader.dataset),
+        'loss': loss_sum / len(test_loader.dataset),
+        'accuracy': correct * 100.0 / len(test_loader.dataset),
+    }
 
 
 def predictions(test_loader, model, **kwargs):

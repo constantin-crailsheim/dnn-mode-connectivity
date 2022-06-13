@@ -112,3 +112,14 @@ def loaders(dataset, path, batch_size, num_workers, transform_name, use_test=Fal
                    pin_memory=True
                ),
            }, max(train_set.train_labels) + 1
+
+
+# loaders, num_classes = loaders(
+#     dataset = "MNIST",
+#     path = "./tmp/data",
+#     batch_size = 128,
+#     num_workers = 4,
+#     transform_name = "BasicCNN",
+#     use_test=False,
+#     shuffle_train=True
+#     )

@@ -111,8 +111,8 @@ else:
                 checkpoint = torch.load(path)
                 print('Loading %s as point #%d' % (path, k))
                 base_model.load_state_dict(checkpoint['model_state'])
-                model.import_base_parameters(base_model, k)
-        if args.init_linear:
+                model.import_base_parameters(base_model, k) # Import parameters of the corner points.
+        if args.init_linear: # Initialize parameters of point at curve a linear combination of the corner points of the curve.
             print('Linear initialization.')
             model.init_linear()
 

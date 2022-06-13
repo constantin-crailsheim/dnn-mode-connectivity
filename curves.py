@@ -12,9 +12,9 @@ class Bezier(Module):
         super(Bezier, self).__init__()
         self.register_buffer(
             'binom',
-            torch.Tensor(binom(num_bends - 1, np.arange(num_bends), dtype=np.float32))
+            torch.Tensor(binom(num_bends - 1, np.arange(num_bends), dtype=np.float32)) # Creates binomial coefficents for each element of Bezier curve.
         )
-        self.register_buffer('range', torch.arange(0, float(num_bends)))
+        self.register_buffer('range', torch.arange(0, float(num_bends))) # Range for sum over elements (i) ?
         self.register_buffer('rev_range', torch.arange(float(num_bends - 1), -1, -1))
 
     def forward(self, t):
@@ -146,7 +146,7 @@ class Conv2d(CurveModule):
                 bias.data.uniform_(-stdv, stdv)
 
     def forward(self, input, coeffs_t):
-        weight_t, bias_t = self.compute_weights_t(coeffs_t)
+        weight_t, bias_t = self.compute_weights_t(coeffs_t) # Computes weights and bias as weighted average of all points on Bezier curve with the respective coefficients.
         return F.conv2d(input, weight_t, bias_t, self.stride,
                         self.padding, self.dilation, self.groups)
 
@@ -312,6 +312,8 @@ class CurveNet(Module):
         output = self.net(input, coeffs_t)
         self._compute_l2()
         return output
+
+
 
 
 def l2_regularizer(weight_decay):
